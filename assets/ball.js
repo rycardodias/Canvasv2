@@ -24,11 +24,15 @@ function Ball(x, y, color, number) {
     }
 
     this.calculateFriction = () => {
-        if (Math.abs(this.vx) > 0.001) {
+        if (Math.abs(this.vx) > 0.01) {
             this.vx *= frictionForce
+        } else {
+            this.vx = 0;
         }
-        if (Math.abs(this.vy) > 0.001) {
+        if (Math.abs(this.vy) > 0.01) {
             this.vy *= frictionForce
+        } else {
+            this.vy = 0;
         }
     }
 
@@ -56,7 +60,7 @@ function Ball(x, y, color, number) {
         ctx.textBaseline = 'middle';
         ctx.font = `${this.radius}px Arial`;
         ctx.fillText(this.number, this.x, this.y);
-        
+
         if (this.number > 8) {
             ctx.moveTo(this.x - this.radius, this.y)
             ctx.lineTo(this.x + this.radius, this.y);

@@ -8,6 +8,7 @@ canvas.height = canvas.width * .5
 let globalRadius = canvas.width * .02;
 const bounceForce = -0.7;
 const frictionForce = 0.99 // percentage
+const maxForce = 30
 //calculo alinhamento bolas
 let line1X = canvas.width * 0.75 - globalRadius * 2
 let line2X = canvas.width * 0.75
@@ -27,6 +28,7 @@ let line9Y = canvas.height * 0.5 + globalRadius * 4 + 4
 
 
 let ballPressed = 0
+let ballsMoving = 0
 
 function calculateDistanteToWhite(mouse) {
     let rect = canvas.getBoundingClientRect()
@@ -36,19 +38,54 @@ function calculateDistanteToWhite(mouse) {
     let dx = ballArray[0].x - x,
         dy = ballArray[0].y - y,
         dist = Math.sqrt(dx * dx + dy * dy)
+
     return dist
 }
 
+
 window.addEventListener('mousedown', mouse => {
+    if (ballsMoving === 1) return
     if (calculateDistanteToWhite(mouse) < globalRadius) {
         ballPressed = 1
     }
 })
 
 window.addEventListener('mouseup', mouse => {
+    if (ballsMoving === 1) return
     if (ballPressed === 1) {
         ballPressed = 0
-        ballArray[0].vx = calculateDistanteToWhite(mouse) * 0.2
+        //calcular angulo
+        let rect = canvas.getBoundingClientRect()
+        let x = mouse.clientX - rect.left
+        let y = mouse.clientY - rect.top
+
+        let dx = ballArray[0].x - x,
+            dy = ballArray[0].y - y,
+            angle = Math.atan2(dy, dx),
+            sin = Math.sin(angle),
+            cos = Math.cos(angle),
+
+            //rotate ball0's velocity
+            vel0 = rotate(ballArray[0].vx, ballArray[0].vy, sin, cos, true)
+
+        //collision reaction
+        vel0.x = calculateDistanteToWhite(mouse) * 0.15
+
+        //rotate velocities back
+        var vel0F = rotate(vel0.x, vel0.y, sin, cos, false);
+
+        if (vel0F.x > 0) {
+            ballArray[0].vx = vel0F.x < maxForce ? vel0F.x : maxForce;
+        } else {
+            ballArray[0].vx = vel0F.x > -maxForce ? vel0F.x : -maxForce;
+        }
+
+        if (vel0F.y > 0) {
+            ballArray[0].vy = vel0F.y < maxForce ? vel0F.y : maxForce;
+        } else {
+            ballArray[0].vy = vel0F.y > -maxForce ? vel0F.y : -maxForce;
+        }
+
     }
 
 })
@@ -139,6 +176,9 @@ function checkCollision(ball0, ball1) {
     ctx.stroke();
 
     ballArray.forEach((element, index) => {
+        ballsMoving = 0
+        if (element.vx !== 0 || element.vy !== 0) ballsMoving = 1
+
         for (let j = index + 1; j < ballArray.length; j++) {
             let obj = ballArray[j]
             checkCollision(element, obj)
