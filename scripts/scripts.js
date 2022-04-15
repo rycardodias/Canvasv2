@@ -15,21 +15,42 @@ let line3X = canvas.width * 0.75 + globalRadius * 2
 let line4X = canvas.width * 0.75 + globalRadius * 4
 let line5X = canvas.width * 0.75 + globalRadius * 6
 
-let line1Y = canvas.height * 0.5 - globalRadius * 4
-let line2Y = canvas.height * 0.5 - globalRadius * 3
-let line3Y = canvas.height * 0.5 - globalRadius * 2
-let line4Y = canvas.height * 0.5 - globalRadius
+let line1Y = canvas.height * 0.5 - globalRadius * 4 - 4
+let line2Y = canvas.height * 0.5 - globalRadius * 3 - 3
+let line3Y = canvas.height * 0.5 - globalRadius * 2 - 2
+let line4Y = canvas.height * 0.5 - globalRadius - 1
 let line5Y = canvas.height * 0.5
-let line6Y = canvas.height * 0.5 + globalRadius
-let line7Y = canvas.height * 0.5 + globalRadius * 2
-let line8Y = canvas.height * 0.5 + globalRadius * 3
-let line9Y = canvas.height * 0.5 + globalRadius * 4
+let line6Y = canvas.height * 0.5 + globalRadius + 1
+let line7Y = canvas.height * 0.5 + globalRadius * 2 + 2
+let line8Y = canvas.height * 0.5 + globalRadius * 3 + 3
+let line9Y = canvas.height * 0.5 + globalRadius * 4 + 4
 
 
+let ballPressed = 0
+
+function calculateDistanteToWhite(mouse) {
+    let rect = canvas.getBoundingClientRect()
+    let x = mouse.clientX - rect.left
+    let y = mouse.clientY - rect.top
+
+    let dx = ballArray[0].x - x,
+        dy = ballArray[0].y - y,
+        dist = Math.sqrt(dx * dx + dy * dy)
+    return dist
+}
 
 window.addEventListener('mousedown', mouse => {
-    ballArray[0].move()
-    ballArray[1].move()
+    if (calculateDistanteToWhite(mouse) < globalRadius) {
+        ballPressed = 1
+    }
+})
+
+window.addEventListener('mouseup', mouse => {
+    if (ballPressed === 1) {
+        ballPressed = 0
+        ballArray[0].vx = calculateDistanteToWhite(mouse) * 0.2
+    }
+
 })
 
 let ballArray = []
@@ -107,7 +128,7 @@ function checkCollision(ball0, ball1) {
     }
 }
 
-ballArray[0].vx = 30;
+// ballArray[0].vx = 30;
 
 (function drawFrame() {
     window.requestAnimationFrame(drawFrame)
@@ -116,7 +137,6 @@ ballArray[0].vx = 30;
     ctx.moveTo(canvas.width * 0.25, 0)
     ctx.lineTo(canvas.width * 0.25, canvas.height);
     ctx.stroke();
-
 
     ballArray.forEach((element, index) => {
         for (let j = index + 1; j < ballArray.length; j++) {
