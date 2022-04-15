@@ -7,7 +7,25 @@ canvas.height = canvas.width * .5
 // variaveis de tamanhos
 let globalRadius = canvas.width * .02;
 const bounceForce = -0.7;
-const frictionForce = 1 || 0.985 // percentage
+const frictionForce = 0.99 // percentage
+//calculo alinhamento bolas
+let line1X = canvas.width * 0.75 - globalRadius * 2
+let line2X = canvas.width * 0.75
+let line3X = canvas.width * 0.75 + globalRadius * 2
+let line4X = canvas.width * 0.75 + globalRadius * 4
+let line5X = canvas.width * 0.75 + globalRadius * 6
+
+let line1Y = canvas.height * 0.5 - globalRadius * 4
+let line2Y = canvas.height * 0.5 - globalRadius * 3
+let line3Y = canvas.height * 0.5 - globalRadius * 2
+let line4Y = canvas.height * 0.5 - globalRadius
+let line5Y = canvas.height * 0.5
+let line6Y = canvas.height * 0.5 + globalRadius
+let line7Y = canvas.height * 0.5 + globalRadius * 2
+let line8Y = canvas.height * 0.5 + globalRadius * 3
+let line9Y = canvas.height * 0.5 + globalRadius * 4
+
+
 
 window.addEventListener('mousedown', mouse => {
     ballArray[0].move()
@@ -16,11 +34,22 @@ window.addEventListener('mousedown', mouse => {
 
 let ballArray = []
 //declarar bolas
-ballArray.push(new Ball(100, 100, 'red', 1));
-ballArray.push(new Ball(300, 100, 'blue', 2));
-ballArray.push(new Ball(400, 100, 'yellow', 3));
-ballArray.push(new Ball(300, 500, 'pink', 4));
-
+ballArray.push(new Ball(canvas.width * 0.25, line5Y, 'white', 0));
+ballArray.push(new Ball(line3X, line3Y, 'gold', 1));
+ballArray.push(new Ball(line5X, line7Y, 'blue', 2));
+ballArray.push(new Ball(line4X, line4Y, 'red', 3));
+ballArray.push(new Ball(line5X, line3Y, 'purple', 4));
+ballArray.push(new Ball(line5X, line1Y, 'orangered', 5));
+ballArray.push(new Ball(line4X, line8Y, 'forestgreen', 6));
+ballArray.push(new Ball(line2X, line6Y, 'maroon', 7));
+ballArray.push(new Ball(line3X, line5Y, 'black', 8));
+ballArray.push(new Ball(line1X, line5Y, 'gold', 9));
+ballArray.push(new Ball(line4X, line6Y, 'blue', 10));
+ballArray.push(new Ball(line5X, line9Y, 'red', 11));
+ballArray.push(new Ball(line2X, line4Y, 'purple', 12));
+ballArray.push(new Ball(line5X, line5Y, 'orangered', 13));
+ballArray.push(new Ball(line4X, line2Y, 'forestgreen', 14));
+ballArray.push(new Ball(line3X, line7Y, 'maroon', 15));
 
 function rotate(x, y, sin, cos, reverse) {
     return {
@@ -78,9 +107,16 @@ function checkCollision(ball0, ball1) {
     }
 }
 
+ballArray[0].vx = 30;
+
 (function drawFrame() {
     window.requestAnimationFrame(drawFrame)
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.moveTo(canvas.width * 0.25, 0)
+    ctx.lineTo(canvas.width * 0.25, canvas.height);
+    ctx.stroke();
+
 
     ballArray.forEach((element, index) => {
         for (let j = index + 1; j < ballArray.length; j++) {
@@ -90,6 +126,8 @@ function checkCollision(ball0, ball1) {
         }
         element.move()
     });
+
+
 
 })();
 

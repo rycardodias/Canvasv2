@@ -1,9 +1,10 @@
-function Ball(x, y, color) {
+function Ball(x, y, color, number) {
     this.x = x; this.y = y;
     this.vx = 0; this.vy = 0;
     this.ax = 0; this.ay = 0;
     this.radius = globalRadius;
     this.color = color;
+    this.number = number
 
     this.calculateHallColision = () => {
         if (this.x - this.radius < 0) {
@@ -49,6 +50,19 @@ function Ball(x, y, color) {
         ctx.closePath();
         ctx.fillStyle = color;
         ctx.fill();
+
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = `${this.radius}px Arial`;
+        ctx.fillText(this.number, this.x, this.y);
+        
+        if (this.number > 8) {
+            ctx.moveTo(this.x - this.radius, this.y)
+            ctx.lineTo(this.x + this.radius, this.y);
+            ctx.stroke();
+        }
+
     };
 
 }
