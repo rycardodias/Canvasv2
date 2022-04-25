@@ -11,7 +11,11 @@ function drawTable() {
     drawHoles()
 }
 
+
+let positionArray = [];
+
 function drawHoles() {
+    positionArray = []
     positionArray.push({ x: 0 + globalRadius, y: 0 + globalRadius })
     positionArray.push({ x: canvas.width / 2, y: 0 + globalRadius })
     positionArray.push({ x: canvas.width - globalRadius, y: 0 + globalRadius })

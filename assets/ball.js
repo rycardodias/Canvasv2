@@ -7,6 +7,16 @@ function Ball(x, y, color, number) {
     this.number = number
 
     this.hidden = false
+    this.scale = 1
+
+    this.changeScale = () => {
+        this.x *=  this.scale
+        this.y *= this.scale
+        this.vx *= this.scale
+        this.vy *= this.scale
+        this.radius *= this.scale
+        this.scale = 1
+    }
 
     this.calculateHallColision = () => {
         if (this.x - this.radius < 0 + this.radius) {
@@ -39,6 +49,7 @@ function Ball(x, y, color, number) {
     }
 
     this.move = () => {
+        this.changeScale()
         this.calculateFriction()
         this.calculateHallColision()
 

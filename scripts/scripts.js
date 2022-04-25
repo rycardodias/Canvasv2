@@ -1,16 +1,13 @@
 const canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
 
-canvas.width = window.innerWidth * .8
-canvas.height = canvas.width * .5
-
 // variaveis de tamanhos
 // let borderSize = canvas.width * .04
-let globalRadius = canvas.width * .025;
+
 const bounceForce = -0.7;
 const frictionForce = 0.99 // percentage
 const maxForce = 25
-let positionArray = []; //posição dos buracos
+//posição dos buracos
 
 //calculo alinhamento bolas
 let line1X = canvas.width * 0.75 - globalRadius * 2
@@ -129,6 +126,7 @@ function checkHoleCollision(ball) {
 
 
 (function drawFrame() {
+    if (winner !== 0) return
     window.requestAnimationFrame(drawFrame)
     drawTable()
 
