@@ -120,8 +120,8 @@ function checkHoleCollision(ball) {
                 dist = Math.sqrt(dx * dx + dy * dy);
 
             if (dist < distanceHall) {
-                return ball.hidden = true
-
+                ball.hidden = true
+                gameRules()
             }
         })
     }
@@ -132,25 +132,19 @@ function checkHoleCollision(ball) {
     window.requestAnimationFrame(drawFrame)
     drawTable()
 
-    ballArray.filter(element => (element.hidden === false) && (element.vx !== 0 || element.vy !== 0))
-        .forEach((element, index) => {
+    let ballsPlaying = ballArray.filter(element => element.hidden === false)
 
-            ballsMoving = (element.vx !== 0 || element.vy !== 0) ? 1 : 0
+    ballsPlaying.forEach((element, index) => {
+        ballsMoving = (element.vx !== 0 || element.vy !== 0) ? 1 : 0
 
-            checkHoleCollision(element)
+        if (ballsMoving) checkHoleCollision(element)
 
-        })
-
-    ballArray.forEach((element, index) => {
-        if (!element.hidden) {
-
-            for (let j = index + 1; j < ballArray.length; j++) {
-                let obj = ballArray[j]
-                !obj.hidden && checkCollision(element, obj)
-            }
+        // percorre todas as bolas e cria as colisões
+        for (let j = index + 1; j < ballsPlaying.length; j++) {
+            let obj = ballsPlaying[j]
+            checkCollision(element, obj)
         }
-        element.move()
-    });
 
-    ballsMoving = 0 && gameRules()
+        element.move()
+    })
 })();
