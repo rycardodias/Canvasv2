@@ -53,7 +53,7 @@ function Ball(x, y, color, number) {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, (Math.PI * 2), false);
         ctx.closePath();
-        ctx.fillStyle = this.hidden ? "#155843": color;
+        ctx.fillStyle =/* this.hidden ? "#155843": */color;
         ctx.fill();
 
         ctx.fillStyle = 'white';
