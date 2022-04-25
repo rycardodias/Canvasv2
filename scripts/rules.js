@@ -38,8 +38,6 @@ function gameRules() {
         if (balls.length === 8 && !white) winner = 2
     }
 
-    winner !== 0 && alert(`Venceu o jogador ${winner} !!!`)
-
     // GAME INTERFACE
 
     //player color
