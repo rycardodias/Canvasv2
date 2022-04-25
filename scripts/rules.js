@@ -1,4 +1,5 @@
 let player1Playing = true;
+let player1BallGroup = 0 // group 0 - 1 to 7 || group 1 - 9 to 15
 let winner = 0; // 1- player 1, 2 - player 2
 
 function gameRules() {
@@ -6,7 +7,7 @@ function gameRules() {
 
     let white = hiddenBallArray.find(e => e.number === 0)
     let black = hiddenBallArray.find(e => e.number === 8)
-    
+
     //branca dentro do buraco, reposiciona no ponto central
     if (white) {
         ballArray[0].x = canvas.width * 0.25
@@ -38,4 +39,21 @@ function gameRules() {
     }
 
     winner !== 0 && alert(`Venceu o jogador ${winner} !!!`)
+
+    // GAME INTERFACE
+
+    //player color
+    document.getElementById("player1").style.color = player1Playing ? "red" : "black";
+    document.getElementById("player2").style.color = !player1Playing ? "red" : "black";
+
+    document.getElementById("player1").innerText = `${player1BallGroup === 0 ? "(S)" : "(B)"} Player 1 `
+    document.getElementById("player2").innerText = ` Player 2 ${player1BallGroup === 0 ? "(B)" : "(S)"}`
+
+    if (winner !== 0) {
+        document.getElementById("player1").remove()
+        document.getElementById("player2").remove()
+        document.getElementById("winner").innerText = `Congratulations, Player ${winner}!`
+
+    }
+
 }
