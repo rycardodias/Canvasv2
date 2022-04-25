@@ -32,67 +32,6 @@ let line9Y = canvas.height * 0.5 + globalRadius * 4 + 4
 let ballPressed = 0
 let ballsMoving = 0
 
-function calculateDistanteToWhite(mouse) {
-    let rect = canvas.getBoundingClientRect()
-    let x = mouse.clientX - rect.left
-    let y = mouse.clientY - rect.top
-
-    let dx = ballArray[0].x - x,
-        dy = ballArray[0].y - y,
-        dist = Math.sqrt(dx * dx + dy * dy)
-
-    return dist
-}
-
-
-window.addEventListener('mousedown', mouse => {
-    if (ballsMoving === 1) return
-    if (calculateDistanteToWhite(mouse) < globalRadius) {
-        ballPressed = 1
-    }
-
-})
-
-window.addEventListener('mouseup', mouse => {
-    if (ballsMoving === 1) return
-    if (ballPressed === 1) {
-        ballPressed = 0
-        //calcular angulo
-        let rect = canvas.getBoundingClientRect()
-        let x = mouse.clientX - rect.left
-        let y = mouse.clientY - rect.top
-
-        let dx = ballArray[0].x - x,
-            dy = ballArray[0].y - y,
-            angle = Math.atan2(dy, dx),
-            sin = Math.sin(angle),
-            cos = Math.cos(angle),
-
-            //rotate ball0's velocity
-            vel0 = rotate(ballArray[0].vx, ballArray[0].vy, sin, cos, true)
-
-        //collision reaction
-        vel0.x = calculateDistanteToWhite(mouse) * 0.15
-
-        //rotate velocities back
-        var vel0F = rotate(vel0.x, vel0.y, sin, cos, false);
-
-        if (vel0F.x > 0) {
-            ballArray[0].vx = vel0F.x < maxForce ? vel0F.x : maxForce;
-        } else {
-            ballArray[0].vx = vel0F.x > -maxForce ? vel0F.x : -maxForce;
-        }
-
-        if (vel0F.y > 0) {
-            ballArray[0].vy = vel0F.y < maxForce ? vel0F.y : maxForce;
-        } else {
-            ballArray[0].vy = vel0F.y > -maxForce ? vel0F.y : -maxForce;
-        }
-
-    }
-
-})
-
 let ballArray = []
 //declarar bolas
 ballArray.push(new Ball(canvas.width * 0.25, line5Y, 'white', 0));
@@ -111,8 +50,6 @@ ballArray.push(new Ball(line2X, line4Y, 'purple', 12));
 ballArray.push(new Ball(line5X, line5Y, 'orangered', 13));
 ballArray.push(new Ball(line4X, line2Y, 'forestgreen', 14));
 ballArray.push(new Ball(line3X, line7Y, 'maroon', 15));
-
-ballArray.push(new Ball(globalRadius, globalRadius + 10, 'maroon', 17));
 
 function rotate(x, y, sin, cos, reverse) {
     return {
@@ -182,70 +119,30 @@ function checkHoleCollision(ball) {
                 dy = element.y - ball.y,
                 dist = Math.sqrt(dx * dx + dy * dy);
 
-
             if (dist < distanceHall) {
                 return ball.hidden = true
 
             }
         })
-
-        // ballArray.pop()
-        // ballArray.splice(this.number - 1)
-
     }
-
 }
 
-let hiddenBallArray = [];
-
-let player1Playing = true
-let player2Playing = false
-
-function gameRules() {
-    hiddenBallArray = ballArray.filter(element => element.hidden === true)
-
-    //branca dentro do buraco, reposiciona no ponto central
-    if (hiddenBallArray.find(element => element.number === 0)) {
-        ballArray[0].x = canvas.width * 0.25
-        ballArray[0].y = canvas.height * 0.5
-        ballArray[0].vx = 0
-        ballArray[0].vy = 0
-        ballArray[0].hidden = false
-        // troca de jogador
-        player1Playing = !player1Playing
-        player2Playing = !player2Playing
-        //TODO coloca bola em cima da mesa
-    }
-
-    if (player1Playing) {
-        if (hiddenBallArray.filter(element => element.number < 9).length === 8) {
-            console.log("venceu")
-        }
-        // console.log(hiddenBallArray.filter(element => element.number < 8))
-    }
-
-}
 
 (function drawFrame() {
     window.requestAnimationFrame(drawFrame)
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawTable()
 
-    ctx.fillStyle = '#155843';
-    ctx.fillRect(globalRadius, globalRadius, canvas.width - globalRadius * 2, canvas.height - globalRadius * 2)
-    //adicionar linha
-    ctx.moveTo(canvas.width * 0.25, 0)
-    ctx.lineTo(canvas.width * 0.25, canvas.height);
-    ctx.stroke();
-    //adicionar buracos
-    drawHoles()
+    ballArray.filter(element => (element.hidden === false) && (element.vx !== 0 || element.vy !== 0))
+        .forEach((element, index) => {
 
-    //verifica se entram nos buracos
-    ballArray.forEach(element => ((element.vx !== 0 || element.vy !== 0) && !element.hidden) && checkHoleCollision(element))
+            ballsMoving = (element.vx !== 0 || element.vy !== 0) ? 1 : 0
+
+            checkHoleCollision(element)
+
+        })
 
     ballArray.forEach((element, index) => {
         if (!element.hidden) {
-            ballsMoving = 0
-            if (element.vx !== 0 || element.vy !== 0) ballsMoving = 1
 
             for (let j = index + 1; j < ballArray.length; j++) {
                 let obj = ballArray[j]
@@ -257,26 +154,3 @@ function gameRules() {
 
     ballsMoving = 0 && gameRules()
 })();
-
-
-
-function drawHoles() {
-    positionArray.push({ x: 0 + globalRadius, y: 0 + globalRadius })
-    positionArray.push({ x: canvas.width / 2, y: 0 + globalRadius })
-    positionArray.push({ x: canvas.width - globalRadius, y: 0 + globalRadius })
-    positionArray.push({ x: 0 + globalRadius, y: canvas.height - globalRadius })
-    positionArray.push({ x: canvas.width / 2, y: canvas.height - globalRadius })
-    positionArray.push({ x: canvas.width - globalRadius, y: canvas.height - globalRadius })
-
-    positionArray.forEach(element => {
-        ctx.beginPath();
-        ctx.arc(element.x, element.y, globalRadius, 0, (Math.PI * 2), false);
-        ctx.closePath();
-        ctx.fillStyle = 'black';
-        ctx.fill();
-    })
-}
-
-
-
-

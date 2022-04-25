@@ -1,9 +1,8 @@
-let hiddenBallArray = [];
 let player1Playing = true;
 let winner = 0; // 1- player 1, 2 - player 2
 
 function gameRules() {
-    hiddenBallArray = ballArray.filter(element => element.hidden === true)
+    let hiddenBallArray = ballArray.filter(element => element.hidden === true)
 
     let branca = hiddenBallArray.find(e => e.number === 0)
 
