@@ -153,7 +153,7 @@ let ballMovementArray = [];
         element.move()
     })
     ballsMoving = ballMovementArray.find(item => item === 1) ? 1 : 0
-    console.log(ballMovementArray)
+    
     refreshInterface()
     // console.log(ballMovementArray)
 })();
