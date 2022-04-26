@@ -11,7 +11,22 @@ function calculateDistanteToWhite(mouse) {
 }
 
 window.addEventListener('mousedown', mouse => {
+
+    if (winner !== 0) {
+        // calcular click novo jogo 
+        let rect = canvas.getBoundingClientRect()
+        let x = mouse.clientX - rect.left
+        let y = mouse.clientY - rect.top
+
+        if (x > (canvas.width / 1.5 - canvas.width * .1) && x < canvas.width / 1.5 + canvas.width * .2
+            && y > canvas.height / 2 - canvas.height * .05 && y < canvas.height / 2 + canvas.height * .05) {
+            
+            buildGame()
+        }
+    }
+
     if (ballsMoving === 1) return
+
     if (calculateDistanteToWhite(mouse) < globalRadius) {
         ballPressed = 1
     }

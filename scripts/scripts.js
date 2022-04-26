@@ -33,23 +33,7 @@ let line9Y = canvas.height * 0.5 + globalRadius * 4 + 4
 
 
 //declarar bolas
-let ballArray = []
-ballArray.push(new Ball(canvas.width * 0.25, line5Y, 'white', 0));
-ballArray.push(new Ball(line3X, line3Y, 'gold', 1));
-ballArray.push(new Ball(line5X, line7Y, 'blue', 2));
-ballArray.push(new Ball(line4X, line4Y, 'red', 3));
-ballArray.push(new Ball(line5X, line3Y, 'purple', 4));
-ballArray.push(new Ball(line5X, line1Y, 'orangered', 5));
-ballArray.push(new Ball(line4X, line8Y, 'forestgreen', 6));
-ballArray.push(new Ball(line2X, line6Y, 'maroon', 7));
-ballArray.push(new Ball(line3X, line5Y, 'black', 8));
-ballArray.push(new Ball(line1X, line5Y, 'gold', 9));
-ballArray.push(new Ball(line4X, line6Y, 'blue', 10));
-ballArray.push(new Ball(line5X, line9Y, 'red', 11));
-ballArray.push(new Ball(line2X, line4Y, 'purple', 12));
-ballArray.push(new Ball(line5X, line5Y, 'orangered', 13));
-ballArray.push(new Ball(line4X, line2Y, 'forestgreen', 14));
-ballArray.push(new Ball(line3X, line7Y, 'maroon', 15));
+
 
 function rotate(x, y, sin, cos, reverse) {
     return {
@@ -129,14 +113,58 @@ function checkHoleCollision(ball) {
     }
 }
 
+let ballArray = []
+ballArray.push(new Ball(canvas.width * 0.25, line5Y, 'white', 0));
+ballArray.push(new Ball(line3X, line3Y, 'gold', 1));
+ballArray.push(new Ball(line5X, line7Y, 'blue', 2));
+ballArray.push(new Ball(line4X, line4Y, 'red', 3));
+ballArray.push(new Ball(line5X, line3Y, 'purple', 4));
+ballArray.push(new Ball(line5X, line1Y, 'orangered', 5));
+ballArray.push(new Ball(line4X, line8Y, 'forestgreen', 6));
+ballArray.push(new Ball(line2X, line6Y, 'maroon', 7));
+ballArray.push(new Ball(line3X, line5Y, 'black', 8));
+ballArray.push(new Ball(line1X, line5Y, 'gold', 9));
+ballArray.push(new Ball(line4X, line6Y, 'blue', 10));
+ballArray.push(new Ball(line5X, line9Y, 'red', 11));
+ballArray.push(new Ball(line2X, line4Y, 'purple', 12));
+ballArray.push(new Ball(line5X, line5Y, 'orangered', 13));
+ballArray.push(new Ball(line4X, line2Y, 'forestgreen', 14));
+ballArray.push(new Ball(line3X, line7Y, 'maroon', 15));
+
+function buildGame() {
+    winner = 0
+    player1BallGroup = undefined
+    player1Playing = true
+    //inserir bolas
+    ballArray = []
+    ballArray.push(new Ball(canvas.width * 0.25, line5Y, 'white', 0));
+    ballArray.push(new Ball(line3X, line3Y, 'gold', 1));
+    ballArray.push(new Ball(line5X, line7Y, 'blue', 2));
+    ballArray.push(new Ball(line4X, line4Y, 'red', 3));
+    ballArray.push(new Ball(line5X, line3Y, 'purple', 4));
+    ballArray.push(new Ball(line5X, line1Y, 'orangered', 5));
+    ballArray.push(new Ball(line4X, line8Y, 'forestgreen', 6));
+    ballArray.push(new Ball(line2X, line6Y, 'maroon', 7));
+    ballArray.push(new Ball(line3X, line5Y, 'black', 8));
+    ballArray.push(new Ball(line1X, line5Y, 'gold', 9));
+    ballArray.push(new Ball(line4X, line6Y, 'blue', 10));
+    ballArray.push(new Ball(line5X, line9Y, 'red', 11));
+    ballArray.push(new Ball(line2X, line4Y, 'purple', 12));
+    ballArray.push(new Ball(line5X, line5Y, 'orangered', 13));
+    ballArray.push(new Ball(line4X, line2Y, 'forestgreen', 14));
+    ballArray.push(new Ball(line3X, line7Y, 'maroon', 15));
+}
+
 let played = false
 let ballIn = 0
 let ballMovementArray = [];
 
 (function drawFrame() {
-    if (winner !== 0) return
     window.requestAnimationFrame(drawFrame)
+
     drawTable()
+
+    if (winner !== 0) return
 
     let ballsPlaying = ballArray.filter(element => element.hidden === false)
 

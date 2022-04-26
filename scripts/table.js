@@ -13,6 +13,7 @@ function drawTable() {
     ctx.drawImage(base_image, canvas.width / 2 - canvas.width / 6, canvas.height / 2 - canvas.width / 6, canvas.width / 3, canvas.width / 3);
 
     drawHoles()
+    if (winner !== 0) drawMenu()
 }
 
 
@@ -34,4 +35,17 @@ function drawHoles() {
         ctx.fillStyle = 'black';
         ctx.fill();
     })
+}
+
+function drawMenu() {
+    ctx.moveTo(canvas.width * 0.45, 0)
+    ctx.lineTo(canvas.width * 0.45, canvas.height);
+    ctx.stroke();
+    ctx.fillStyle = 'white';
+    ctx.font = `${globalRadius}px serif`;
+    ctx.fillText(`Player ${winner} win!`, canvas.width / 1.5, canvas.height / 2 - canvas.height * 0.2)
+
+    ctx.fillStyle = 'white';
+    ctx.font = `${globalRadius}px serif`;
+    ctx.fillText("Jogar Novamente", canvas.width / 1.5, canvas.height / 2)
 }

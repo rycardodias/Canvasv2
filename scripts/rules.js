@@ -7,7 +7,7 @@ let totalBig = 0; // total big balls
 
 function gameRules() {
     let hiddenBallArray = ballArray.filter(element => element.hidden === true)
-
+    winner = 1
     let white = hiddenBallArray.find(e => e.number === 0)
     let black = hiddenBallArray.find(e => e.number === 8)
 
@@ -67,7 +67,6 @@ function verifyPlayerTurn(smallballs, bigballs) {
             player1Playing = !player1Playing
         }
         totalSmall++
-        console.log("entrou pequena" + totalSmall)
     }
     else if (totalBig < bigballs.length) {
         if (player1Playing && player1BallGroup === 1) {
@@ -76,6 +75,5 @@ function verifyPlayerTurn(smallballs, bigballs) {
             player1Playing = !player1Playing
         }
         totalBig++
-        console.log("entrou grande" + totalBig)
     }
 }
