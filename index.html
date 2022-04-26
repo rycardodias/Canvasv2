@@ -27,8 +27,13 @@
         <span id="winner"></span>
         <span id="player2">Player 2</span>
     </h3>
-    
+
     <canvas id="canvas"></canvas>
+
+    <h4>
+        <span id="bounceForce"> </span><input type="number" step=".1" min="-1" max="1" id="bounceForceInput"></input>
+        <span id="frictionForce"> </span><input type="number" step=".01" min="0.95" max="1" id="frictionForceInput"></input>
+    </h4>
 
 
     <script src="./scripts/dimensions.js"></script>
@@ -36,8 +41,10 @@
     <script src="./scripts/rules.js"></script>
     <script src="./assets/ball.js"></script>
     <script src="./scripts/mouseEvents.js"></script>
-
+    <script src="./scripts/interface.js"></script>
     <script src="./scripts/scripts.js"></script>
+
+
 </body>
 
 </html>

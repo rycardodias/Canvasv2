@@ -4,10 +4,14 @@ const canvas = document.getElementById('canvas'),
 // variaveis de tamanhos
 // let borderSize = canvas.width * .04
 
-const bounceForce = -0.7;
-const frictionForce = 0.99 // percentage
-const maxForce = 25
-//posição dos buracos
+let bounceForce = -0.7;
+document.getElementById("bounceForceInput").value = bounceForce
+let frictionForce = 0.99 // percentage
+document.getElementById("frictionForceInput").value = frictionForce
+const maxForce = 20
+
+let ballPressed = 0
+let ballsMoving = 0
 
 //calculo alinhamento bolas
 let line1X = canvas.width * 0.75 - globalRadius * 2
@@ -26,11 +30,10 @@ let line7Y = canvas.height * 0.5 + globalRadius * 2 + 2
 let line8Y = canvas.height * 0.5 + globalRadius * 3 + 3
 let line9Y = canvas.height * 0.5 + globalRadius * 4 + 4
 
-let ballPressed = 0
-let ballsMoving = 0
 
-let ballArray = []
+
 //declarar bolas
+let ballArray = []
 ballArray.push(new Ball(canvas.width * 0.25, line5Y, 'white', 0));
 ballArray.push(new Ball(line3X, line3Y, 'gold', 1));
 ballArray.push(new Ball(line5X, line7Y, 'blue', 2));
@@ -145,4 +148,5 @@ function checkHoleCollision(ball) {
 
         element.move()
     })
+    refreshInterface()
 })();

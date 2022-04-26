@@ -7,16 +7,15 @@ function Ball(x, y, color, number) {
     this.number = number
 
     this.hidden = false
-    this.scale = 1
+    // this.scale = 1
 
-    this.changeScale = () => {
-        this.x *=  this.scale
-        this.y *= this.scale
-        this.vx *= this.scale
-        this.vy *= this.scale
-        this.radius *= this.scale
-        this.scale = 1
-    }
+    // this.changeScale = () => {
+    //     this.x *= this.scale
+    //     this.y *= this.scale
+    //     this.vx *= this.scale
+    //     this.vy *= this.scale
+    //     this.radius *= this.scale
+    // }
 
     this.calculateHallColision = () => {
         if (this.x - this.radius < 0 + this.radius) {
@@ -36,12 +35,12 @@ function Ball(x, y, color, number) {
     }
 
     this.calculateFriction = () => {
-        if (Math.abs(this.vx) > 0.2) {
+        if (Math.abs(this.vx) > 0.1) {
             this.vx *= frictionForce
         } else {
             this.vx = 0;
         }
-        if (Math.abs(this.vy) > 0.2) {
+        if (Math.abs(this.vy) > 0.1) {
             this.vy *= frictionForce
         } else {
             this.vy = 0;
@@ -49,7 +48,6 @@ function Ball(x, y, color, number) {
     }
 
     this.move = () => {
-        this.changeScale()
         this.calculateFriction()
         this.calculateHallColision()
 
