@@ -7,7 +7,6 @@ let totalBig = 0; // total big balls
 
 function gameRules() {
     let hiddenBallArray = ballArray.filter(element => element.hidden === true)
-    winner = 1
     let white = hiddenBallArray.find(e => e.number === 0)
     let black = hiddenBallArray.find(e => e.number === 8)
 
