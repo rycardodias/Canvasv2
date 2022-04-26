@@ -20,6 +20,7 @@ function refreshInterface() {
     document.getElementById("frictionForce").innerText = `Friction Force:`
     frictionForce = document.getElementById("frictionForceInput").value
 
+    document.getElementById("ballsMoving").innerText = `ballsMoving: ${ballsMoving}`
 
 
 

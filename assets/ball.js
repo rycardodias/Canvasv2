@@ -2,20 +2,24 @@ function Ball(x, y, color, number) {
     this.x = x; this.y = y;
     this.vx = 0; this.vy = 0;
     this.ax = 0; this.ay = 0;
-    this.radius = globalRadius;
+    this.radius = globalRadius * 0.95;
     this.color = color;
     this.number = number
 
     this.hidden = false
-    // this.scale = 1
 
-    // this.changeScale = () => {
-    //     this.x *= this.scale
-    //     this.y *= this.scale
-    //     this.vx *= this.scale
-    //     this.vy *= this.scale
-    //     this.radius *= this.scale
-    // }
+    this.canvasWidth = canvas.width
+
+    this.calculatePositions = function () {
+        if (this.canvasWidth === canvas.width) return
+        //calcula a proporção face ao tamanho anterior do canvas
+        const proportion = canvas.width / this.canvasWidth
+
+        this.x *= proportion
+        this.y *= proportion
+        this.radius *= proportion
+        this.canvasWidth = canvas.width
+    }
 
     this.calculateHallColision = () => {
         if (this.x - this.radius < 0 + this.radius) {
@@ -48,6 +52,7 @@ function Ball(x, y, color, number) {
     }
 
     this.move = () => {
+        this.calculatePositions()
         this.calculateFriction()
         this.calculateHallColision()
 
