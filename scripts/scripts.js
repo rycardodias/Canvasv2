@@ -123,6 +123,7 @@ function checkHoleCollision(ball) {
                 ball.hidden = true
                 ballMovementArray[ball.number] = 0
                 gameRules()
+                ballIn = 1
             }
         })
     }
@@ -153,7 +154,6 @@ let ballMovementArray = [];
         element.move()
     })
     ballsMoving = ballMovementArray.find(item => item === 1) ? 1 : 0
-    
+
     refreshInterface()
-    // console.log(ballMovementArray)
 })();
