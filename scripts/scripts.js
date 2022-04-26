@@ -129,6 +129,8 @@ function checkHoleCollision(ball) {
     }
 }
 
+let played = false
+let ballIn = 0
 let ballMovementArray = [];
 
 (function drawFrame() {
@@ -154,6 +156,13 @@ let ballMovementArray = [];
         element.move()
     })
     ballsMoving = ballMovementArray.find(item => item === 1) ? 1 : 0
+
+    //verificar se entrou alguma bola
+    if (ballsMoving === 0 && played) {
+        if (ballIn !== 1) player1Playing = !player1Playing
+        played = false
+        ballIn = 0
+    }
 
     refreshInterface()
 })();

@@ -54,6 +54,8 @@ window.addEventListener('mouseup', mouse => {
             ballArray[0].vy = vel0F.y > -maxForce ? vel0F.y : -maxForce;
         }
 
+        //bola foi jogada
+        played = true
     }
 
 })

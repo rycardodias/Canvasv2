@@ -8,6 +8,10 @@ function drawTable() {
     ctx.lineTo(canvas.width * 0.25, canvas.height);
     ctx.stroke();
 
+    let base_image = new Image();
+    base_image.src = 'images/ball.png';
+    ctx.drawImage(base_image, canvas.width / 2 - canvas.width / 6, canvas.height / 2 - canvas.width / 6, canvas.width / 3, canvas.width / 3);
+
     drawHoles()
 }
 
